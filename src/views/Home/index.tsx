@@ -10,7 +10,7 @@ import { VersionLabel } from '../../utils/VersionLabel';
 const Home: React.FC = () => (
   <StyledLayout>
     <MeetingFormSelector />
-    <VersionLabel />
+    {/*<VersionLabel />*/}
   </StyledLayout>
 );
 

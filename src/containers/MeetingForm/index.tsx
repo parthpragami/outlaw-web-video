@@ -130,12 +130,11 @@ const MeetingForm: React.FC = () => {
       await meetingManager.join(meetingSessionConfiguration as never, options);
       if (meetingMode === MeetingMode.Spectator) {
         await meetingManager.start();
-        // navigate(`${routes.MEETING}/${meetingId}`);
-        // navigate(`${routes.MEETING}/${meetingId}`);
+        navigate(`${routes.MEETING}/${meetingId}`);
       } else {
-        setMeetingMode(MeetingMode.Attendee);
         await meetingManager.start();
         navigate(`${routes.MEETING}/${meetingId}`);
+        // setMeetingMode(MeetingMode.Attendee);
         // navigate(routes.DEVICE);
       }
     } catch (error) {
@@ -191,93 +190,94 @@ const MeetingForm: React.FC = () => {
           }
         }}
       />
-      <RegionSelection setRegion={setRegion} region={region} />
-      <FormField
-        field={Checkbox}
-        label="Join w/o Audio and Video (spectator mode)"
-        value=""
-        checked={meetingMode === MeetingMode.Spectator}
-        onChange={(): void => {
-          if (meetingMode === MeetingMode.Spectator) {
-            setMeetingMode(MeetingMode.Attendee);
-          } else {
-            setMeetingMode(MeetingMode.Spectator);
-          }
-        }}
-      />
-      <FormField
-        field={Checkbox}
-        label="Enable Web Audio"
-        value=""
-        checked={isWebAudioEnabled}
-        onChange={toggleWebAudio}
-        infoText="Enable Web Audio to use Voice Focus"
-      />
-      {/* Amazon Chime Echo Reduction is a premium feature, please refer to the Pricing page for details.*/}
-      {isWebAudioEnabled && (
-        <FormField
-          field={Checkbox}
-          label="Enable Echo Reduction"
-          value=""
-          checked={isEchoReductionEnabled}
-          onChange={toggleEchoReduction}
-          infoText="Enable Echo Reduction (new meetings only)"
-        />
-      )}
-      {/* BlurSelection */}
-      {/* Background Video Transform Selections */}
-      <FormField
-        field={Select}
-        options={VIDEO_TRANSFORM_FILTER_OPTIONS}
-        onChange={(e: ChangeEvent<HTMLSelectElement>): void => {
-          setCpuUtilization(e.target.value);
-        }}
-        value={videoTransformCpuUtilization}
-        label="Background Filters CPU Utilization"
-      />
-      {/* Video uplink and downlink policies */}
-      {browserBehavior.isSimulcastSupported() && (
-        <FormField
-          field={Checkbox}
-          label="Enable Simulcast"
-          value=""
-          checked={enableSimulcast}
-          onChange={toggleSimulcast}
-        />
-      )}
 
-      {browserBehavior.supportDownlinkBandwidthEstimation() && (
-        <FormField
-          field={Checkbox}
-          label="Use Priority-Based Downlink Policy"
-          value=""
-          checked={priorityBasedPolicy !== undefined}
-          onChange={togglePriorityBasedPolicy}
-        />
-      )}
-      <FormField
-        field={Checkbox}
-        label="Keep Last Frame When Paused"
-        value=""
-        checked={keepLastFrameWhenPaused}
-        onChange={toggleKeepLastFrameWhenPaused}
-      />
-      <FormField
-        field={Checkbox}
-        label="Skip Meeting Join Device Selection"
-        value=""
-        checked={skipDeviceSelection}
-        onChange={toggleMeetingJoinDeviceSelection}
-        infoText="Please select the devices manually to successfully join a meeting"
-      />
-      <FormField
-        field={Checkbox}
-        label="Enable Multiple Content Shares (max: 2)"
-        value=""
-        checked={enableMaxContentShares}
-        onChange={toggleMaxContentShares}
-        infoText="Allow up to 2 simultaneous content shares in the meeting"
-      />
+      {/*<RegionSelection setRegion={setRegion} region={region} />*/}
+      {/*<FormField*/}
+      {/*  field={Checkbox}*/}
+      {/*  label="Join w/o Audio and Video (spectator mode)"*/}
+      {/*  value=""*/}
+      {/*  checked={meetingMode === MeetingMode.Spectator}*/}
+      {/*  onChange={(): void => {*/}
+      {/*    if (meetingMode === MeetingMode.Spectator) {*/}
+      {/*      setMeetingMode(MeetingMode.Attendee);*/}
+      {/*    } else {*/}
+      {/*      setMeetingMode(MeetingMode.Spectator);*/}
+      {/*    }*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {/*<FormField*/}
+      {/*  field={Checkbox}*/}
+      {/*  label="Enable Web Audio"*/}
+      {/*  value=""*/}
+      {/*  checked={isWebAudioEnabled}*/}
+      {/*  onChange={toggleWebAudio}*/}
+      {/*  infoText="Enable Web Audio to use Voice Focus"*/}
+      {/*/>*/}
+      {/*/!* Amazon Chime Echo Reduction is a premium feature, please refer to the Pricing page for details.*!/*/}
+      {/*{isWebAudioEnabled && (*/}
+      {/*  <FormField*/}
+      {/*    field={Checkbox}*/}
+      {/*    label="Enable Echo Reduction"*/}
+      {/*    value=""*/}
+      {/*    checked={isEchoReductionEnabled}*/}
+      {/*    onChange={toggleEchoReduction}*/}
+      {/*    infoText="Enable Echo Reduction (new meetings only)"*/}
+      {/*  />*/}
+      {/*)}*/}
+      {/*/!* BlurSelection *!/*/}
+      {/*/!* Background Video Transform Selections *!/*/}
+      {/*<FormField*/}
+      {/*  field={Select}*/}
+      {/*  options={VIDEO_TRANSFORM_FILTER_OPTIONS}*/}
+      {/*  onChange={(e: ChangeEvent<HTMLSelectElement>): void => {*/}
+      {/*    setCpuUtilization(e.target.value);*/}
+      {/*  }}*/}
+      {/*  value={videoTransformCpuUtilization}*/}
+      {/*  label="Background Filters CPU Utilization"*/}
+      {/*/>*/}
+      {/*/!* Video uplink and downlink policies *!/*/}
+      {/*{browserBehavior.isSimulcastSupported() && (*/}
+      {/*  <FormField*/}
+      {/*    field={Checkbox}*/}
+      {/*    label="Enable Simulcast"*/}
+      {/*    value=""*/}
+      {/*    checked={enableSimulcast}*/}
+      {/*    onChange={toggleSimulcast}*/}
+      {/*  />*/}
+      {/*)}*/}
+
+      {/*{browserBehavior.supportDownlinkBandwidthEstimation() && (*/}
+      {/*  <FormField*/}
+      {/*    field={Checkbox}*/}
+      {/*    label="Use Priority-Based Downlink Policy"*/}
+      {/*    value=""*/}
+      {/*    checked={priorityBasedPolicy !== undefined}*/}
+      {/*    onChange={togglePriorityBasedPolicy}*/}
+      {/*  />*/}
+      {/*)}*/}
+      {/*<FormField*/}
+      {/*  field={Checkbox}*/}
+      {/*  label="Keep Last Frame When Paused"*/}
+      {/*  value=""*/}
+      {/*  checked={keepLastFrameWhenPaused}*/}
+      {/*  onChange={toggleKeepLastFrameWhenPaused}*/}
+      {/*/>*/}
+      {/*<FormField*/}
+      {/*  field={Checkbox}*/}
+      {/*  label="Skip Meeting Join Device Selection"*/}
+      {/*  value=""*/}
+      {/*  checked={skipDeviceSelection}*/}
+      {/*  onChange={toggleMeetingJoinDeviceSelection}*/}
+      {/*  infoText="Please select the devices manually to successfully join a meeting"*/}
+      {/*/>*/}
+      {/*<FormField*/}
+      {/*  field={Checkbox}*/}
+      {/*  label="Enable Multiple Content Shares (max: 2)"*/}
+      {/*  value=""*/}
+      {/*  checked={enableMaxContentShares}*/}
+      {/*  onChange={toggleMaxContentShares}*/}
+      {/*  infoText="Allow up to 2 simultaneous content shares in the meeting"*/}
+      {/*/>*/}
       <Flex container layout="fill-space-centered" style={{ marginTop: '2.5rem' }}>
         {isLoading ? <Spinner /> : <PrimaryButton label="Continue" onClick={handleJoinMeeting} />}
       </Flex>

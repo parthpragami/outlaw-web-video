@@ -70,7 +70,7 @@ const query = new URLSearchParams(location.search);
 export function AppStateProvider({ children }: Props) {
   const logger = useLogger();
   const [meetingId, setMeetingId] = useState(query.get('meetingId') || '');
-  const [region, setRegion] = useState(query.get('region') || '');
+  const [region, setRegion] = useState(query.get('region') || 'us-east-1');
   const [meetingMode, setMeetingMode] = useState(MeetingMode.Attendee);
   const [joinInfo, setJoinInfo] = useState<JoinMeetingInfo | undefined>(undefined);
   const [layout, setLayout] = useState(Layout.Gallery);

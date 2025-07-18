@@ -22,7 +22,6 @@ const MeetingFormSelector: React.FC = () => {
     </SIPMeetingProvider>
   ) : (
       <>
-        <h1>MeetingForm</h1>
         <MeetingForm />
       </>
   );
@@ -31,9 +30,9 @@ const MeetingFormSelector: React.FC = () => {
   return (
     <StyledWrapper>
       <StyledDiv>{formToShow}</StyledDiv>
-      <Flex container layout="fill-space-centered" style={{ padding: '2rem' }}>
-        <SecondaryButton label={buttonText} onClick={toggle} />
-      </Flex>
+      {/*<Flex container layout="fill-space-centered" style={{ padding: '2rem' }}>*/}
+      {/*  <SecondaryButton label={buttonText} onClick={toggle} />*/}
+      {/*</Flex>*/}
     </StyledWrapper>
   );
 };
