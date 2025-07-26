@@ -5,13 +5,16 @@ import React from 'react';
 
 import MeetingFormSelector from '../../containers/MeetingFormSelector';
 import { StyledLayout } from './Styled';
-import { VersionLabel } from '../../utils/VersionLabel';
+import {useAppState} from "../../providers/AppStateProvider.tsx";
 
-const Home: React.FC = () => (
-  <StyledLayout>
-    <MeetingFormSelector />
-    {/*<VersionLabel />*/}
-  </StyledLayout>
-);
+const Home: React.FC = () => {
+const { theme, toggleTheme, layout, setLayout, priorityBasedPolicy } = useAppState();
+    return (
+        <StyledLayout>
+            <MeetingFormSelector />
+        </StyledLayout>
+        )
+
+};
 
 export default Home;

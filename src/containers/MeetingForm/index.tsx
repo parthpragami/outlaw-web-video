@@ -152,14 +152,14 @@ const MeetingForm: React.FC = () => {
 
   return (
     <form>
-      <Heading tag="h1" level={4} css="margin-bottom: 1rem">
-        Join a meeting
-      </Heading>
+      {/*<Heading tag="h1" level={4} css="margin-bottom: 1rem">*/}
+      {/*  Join a meeting*/}
+      {/*</Heading>*/}
       <FormField
         field={Input}
         label="Meeting Id"
         value={meetingId}
-        infoText="Anyone with access to the meeting ID can join"
+        // infoText="Anyone with access to the meeting ID can join"
         fieldProps={{
           name: 'meetingId',
           placeholder: 'Enter Meeting Id',
@@ -278,8 +278,8 @@ const MeetingForm: React.FC = () => {
       {/*  onChange={toggleMaxContentShares}*/}
       {/*  infoText="Allow up to 2 simultaneous content shares in the meeting"*/}
       {/*/>*/}
-      <Flex container layout="fill-space-centered" style={{ marginTop: '2.5rem' }}>
-        {isLoading ? <Spinner /> : <PrimaryButton label="Continue" onClick={handleJoinMeeting} />}
+      <Flex container  style={{ marginTop: '2.5rem', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        {isLoading ? <Spinner /> : <PrimaryButton label="Continue" onClick={handleJoinMeeting} style={{ width: '100%' }} />}
       </Flex>
       {errorMessage && (
         <Modal size="md" onClose={closeError}>

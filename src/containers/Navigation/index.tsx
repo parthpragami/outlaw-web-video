@@ -40,60 +40,60 @@ const Navigation: React.FC = () => {
           onClick={toggleRoster}
           label="Attendees"
         />
-        <NavbarItem
-          icon={<Chat />}
-          onClick={toggleChat}
-          label="Chat"
-        />
-        <NavbarItem
-          icon={
-            layout === Layout.Gallery ? (
-              <FeaturedLayout />
-            ) : (
-              <GalleryLayout />
-            )
-          }
-          onClick={(): void => {
-            if (layout === Layout.Gallery) {
-              setLayout(Layout.Featured);
-            } else {
-              setLayout(Layout.Gallery);
-            }
-          }}
-          disabled={!!sharingAttendeeId}
-          label="Switch View"
-        />
-        {layout === Layout.Gallery && priorityBasedPolicy &&
-          <>
-            <NavbarItem
-              icon={<ZoomIn />}
-              onClick={zoomIn}
-              label="Zoom In"
-              disabled={!!sharingAttendeeId}
-            />
-            <NavbarItem
-              icon={<ZoomOut />}
-              onClick={zoomOut}
-              label="Zoom Out"
-            />
-          </>
-        }
+        {/*<NavbarItem*/}
+        {/*  icon={<Chat />}*/}
+        {/*  onClick={toggleChat}*/}
+        {/*  label="Chat"*/}
+        {/*/>*/}
+        {/*<NavbarItem*/}
+        {/*  icon={*/}
+        {/*    layout === Layout.Gallery ? (*/}
+        {/*      <FeaturedLayout />*/}
+        {/*    ) : (*/}
+        {/*      <GalleryLayout />*/}
+        {/*    )*/}
+        {/*  }*/}
+        {/*  onClick={(): void => {*/}
+        {/*    if (layout === Layout.Gallery) {*/}
+        {/*      setLayout(Layout.Featured);*/}
+        {/*    } else {*/}
+        {/*      setLayout(Layout.Gallery);*/}
+        {/*    }*/}
+        {/*  }}*/}
+        {/*  disabled={!!sharingAttendeeId}*/}
+        {/*  label="Switch View"*/}
+        {/*/>*/}
+        {/*{layout === Layout.Gallery && priorityBasedPolicy &&*/}
+        {/*  <>*/}
+        {/*    <NavbarItem*/}
+        {/*      icon={<ZoomIn />}*/}
+        {/*      onClick={zoomIn}*/}
+        {/*      label="Zoom In"*/}
+        {/*      disabled={!!sharingAttendeeId}*/}
+        {/*    />*/}
+        {/*    <NavbarItem*/}
+        {/*      icon={<ZoomOut />}*/}
+        {/*      onClick={zoomOut}*/}
+        {/*      label="Zoom Out"*/}
+        {/*    />*/}
+        {/*  </>*/}
+        {/*}*/}
       </Flex>
       <Flex marginTop="auto">
-        <NavbarItem
-          icon={<Eye />}
-          onClick={toggleTheme}
-          label={theme === 'light' ? 'Dark mode' : 'Light mode'}
-        />
-        <NavbarItem
-          icon={<SignalStrength />}
-          onClick={(): void => {
-            // do nothing
-          }}
-          label="Media metrics"
-        >
-          <LocalMediaStreamMetrics />
-        </NavbarItem>
+        {/*<NavbarItem*/}
+        {/*  icon={<Eye />}*/}
+        {/*  onClick={toggleTheme}*/}
+        {/*  label={theme === 'light' ? 'Dark mode' : 'Light mode'}*/}
+        {/*/>*/}
+        {/*<NavbarItem*/}
+        {/*  icon={<SignalStrength />}*/}
+        {/*  onClick={(): void => {*/}
+        {/*    // do nothing*/}
+        {/*  }}*/}
+        {/*  label="Media metrics"*/}
+        {/*>*/}
+        {/*  <LocalMediaStreamMetrics />*/}
+        {/*</NavbarItem>*/}
       </Flex>
     </Navbar>
   );

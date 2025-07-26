@@ -1,40 +1,47 @@
-// Copyright 2020-2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-// SPDX-License-Identifier: MIT-0
-
 import React from 'react';
-import {
-  Flex,
-  SecondaryButton,
-} from 'amazon-chime-sdk-component-library-react';
-
 import MeetingForm from '../MeetingForm';
-import SIPMeeting from '../SIPMeeting';
-import useToggle from '../../hooks/useToggle';
-import SIPMeetingProvider from '../../providers/SIPMeetingProvider';
-import { StyledDiv, StyledWrapper } from './Styled';
+import { useTheme } from 'styled-components';
 
 const MeetingFormSelector: React.FC = () => {
-  const { isActive, toggle } = useToggle(false);
-  const formToShow = isActive ? (
-    <SIPMeetingProvider>
-        <h1>SIPMeeting</h1>
-      <SIPMeeting />
-    </SIPMeetingProvider>
-  ) : (
-      <>
-        <MeetingForm />
-      </>
-  );
-  const buttonText = isActive ? 'Join without SIP' : 'Join via SIP';
+    const theme = useTheme();
 
-  return (
-    <StyledWrapper>
-      <StyledDiv>{formToShow}</StyledDiv>
-      {/*<Flex container layout="fill-space-centered" style={{ padding: '2rem' }}>*/}
-      {/*  <SecondaryButton label={buttonText} onClick={toggle} />*/}
-      {/*</Flex>*/}
-    </StyledWrapper>
-  );
+    return (
+        <div
+            style={{
+                minHeight: '100vh',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '2rem',
+                backgroundColor: theme.colors.secondary.main,
+            }}
+        >
+            <div
+                style={{
+                    background: theme.colors.secondary.main,
+                    padding: '3rem 2rem',
+                    borderRadius: '16px',
+                    width: '500px',
+                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.06)',
+                }}
+            >
+                <h1
+                    style={{
+                        fontSize: '2rem',
+                        fontWeight: 700,
+                        marginBottom: '2rem',
+                        color: theme.colors.primary.main,
+                        fontFamily: 'ProximaNovaBold, sans-serif',
+                        textAlign: 'center',
+                    }}
+                >
+                    Outlaw
+                </h1>
+
+                <MeetingForm />
+            </div>
+        </div>
+    );
 };
 
 export default MeetingFormSelector;
