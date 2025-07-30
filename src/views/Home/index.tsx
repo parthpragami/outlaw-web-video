@@ -10,9 +10,9 @@ import {useAppState} from "../../providers/AppStateProvider.tsx";
 const Home: React.FC = () => {
 const { theme, toggleTheme, layout, setLayout, priorityBasedPolicy } = useAppState();
     return (
-        <StyledLayout>
+        // <StyledLayout>
             <MeetingFormSelector />
-        </StyledLayout>
+        // </StyledLayout>
         )
 
 };

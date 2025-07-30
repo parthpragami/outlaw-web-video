@@ -1,8 +1,8 @@
 // Copyright 2020-2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: MIT-0
 
-import React, {type ChangeEvent, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {type ChangeEvent, useContext, useEffect, useState} from 'react';
+import {Navigate, useNavigate, useSearchParams} from 'react-router-dom';
 import {
   Checkbox,
   DeviceLabels,
@@ -51,6 +51,8 @@ const MeetingForm: React.FC = () => {
     isWebAudioEnabled,
     videoTransformCpuUtilization: videoTransformCpuUtilization,
     setJoinInfo,
+    attendees,
+    setAttendees,
     isEchoReductionEnabled,
     enableMaxContentShares,
     toggleEchoReduction,
@@ -68,35 +70,48 @@ const MeetingForm: React.FC = () => {
     toggleMeetingJoinDeviceSelection,
   } = useAppState();
   const [meetingErr, setMeetingErr] = useState(false);
+  const [meetingStarted, setMeetingStarted] = useState(false);
   const [nameErr, setNameErr] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { errorMessage, updateErrorMessage } = useContext(getErrorContext());
   const navigate = useNavigate();
   const browserBehavior = new DefaultBrowserBehavior();
+  const [searchParams] = useSearchParams();
+  const [bookingId, setBookingId] = useState<string | null>(null);
 
-  const handleJoinMeeting = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const id = meetingId.trim().toLocaleLowerCase();
-    const attendeeName = localUserName.trim();
-
-    if (!id || !attendeeName) {
-      if (!attendeeName) {
-        setNameErr(true);
-      }
-
-      if (!id) {
-        setMeetingErr(true);
-      }
-
-      return;
-    }
+  const handleJoinMeeting = async () => {
+    // e.preventDefault();
+    const bookingId: string | null = searchParams.get('bookingId');
+    setBookingId(bookingId);
+    const token: string | null = searchParams.get('token');
+    console.log({
+      bookingId, token
+    })
+    const id = String(bookingId)
+    // const attendeeName = localUserName.trim();
+    //
+    // if (!id || !attendeeName) {
+    //   if (!attendeeName) {
+    //     setNameErr(true);
+    //   }
+    //
+    //   if (!id) {
+    //     setMeetingErr(true);
+    //   }
+    //
+    //   return;
+    // }
 
     setIsLoading(true);
-    meetingManager.getAttendee = createGetAttendeeCallback(id);
+    console.log('ID ==>', {id})
+    meetingManager.getAttendee = createGetAttendeeCallback(id, attendees);
 
     try {
-      const { JoinInfo } = await createMeetingAndAttendee(id, attendeeName, region, isEchoReductionEnabled);
+      const { JoinInfo }  = await createMeetingAndAttendee(id, token);
+      console.log('JoinInfo', JoinInfo)
       setJoinInfo(JoinInfo);
+      setAttendees(JoinInfo.Attendees);
+      console.log('JoinInfo.Attendees', JoinInfo.Attendees);
       const meetingSessionConfiguration = new MeetingSessionConfiguration(JoinInfo?.Meeting, JoinInfo?.Attendee);
       if (
         meetingConfig.postLogger &&
@@ -130,16 +145,19 @@ const MeetingForm: React.FC = () => {
       await meetingManager.join(meetingSessionConfiguration as never, options);
       if (meetingMode === MeetingMode.Spectator) {
         await meetingManager.start();
-        navigate(`${routes.MEETING}/${meetingId}`);
+        setMeetingStarted(true);
+        // navigate(`${routes.MEETING}/${bookingId}`);
       } else {
         await meetingManager.start();
-        navigate(`${routes.MEETING}/${meetingId}`);
+        setMeetingStarted(true);
+        // navigate(`${routes.MEETING}/${bookingId}`);
         // setMeetingMode(MeetingMode.Attendee);
         // navigate(routes.DEVICE);
       }
     } catch (error) {
       console.log('handleJoinMeeting error', error);
       updateErrorMessage((error as Error).message);
+      setMeetingStarted(true);
     }
   };
 
@@ -150,46 +168,50 @@ const MeetingForm: React.FC = () => {
     setIsLoading(false);
   };
 
+  useEffect(() => {
+    handleJoinMeeting()
+  }, [])
+
   return (
     <form>
       {/*<Heading tag="h1" level={4} css="margin-bottom: 1rem">*/}
       {/*  Join a meeting*/}
       {/*</Heading>*/}
-      <FormField
-        field={Input}
-        label="Meeting Id"
-        value={meetingId}
-        // infoText="Anyone with access to the meeting ID can join"
-        fieldProps={{
-          name: 'meetingId',
-          placeholder: 'Enter Meeting Id',
-        }}
-        errorText="Please enter a valid meeting ID"
-        error={meetingErr}
-        onChange={(e: ChangeEvent<HTMLInputElement>): void => {
-          setMeetingId(e.target.value);
-          if (meetingErr) {
-            setMeetingErr(false);
-          }
-        }}
-      />
-      <FormField
-        field={Input}
-        label="Name"
-        value={localUserName}
-        fieldProps={{
-          name: 'name',
-          placeholder: 'Enter Your Name',
-        }}
-        errorText="Please enter a valid name"
-        error={nameErr}
-        onChange={(e: ChangeEvent<HTMLInputElement>): void => {
-          setLocalUserName(e.target.value);
-          if (nameErr) {
-            setNameErr(false);
-          }
-        }}
-      />
+      {/*<FormField*/}
+      {/*  field={Input}*/}
+      {/*  label="Meeting Id"*/}
+      {/*  value={meetingId}*/}
+      {/*  // infoText="Anyone with access to the meeting ID can join"*/}
+      {/*  fieldProps={{*/}
+      {/*    name: 'meetingId',*/}
+      {/*    placeholder: 'Enter Meeting Id',*/}
+      {/*  }}*/}
+      {/*  errorText="Please enter a valid meeting ID"*/}
+      {/*  error={meetingErr}*/}
+      {/*  onChange={(e: ChangeEvent<HTMLInputElement>): void => {*/}
+      {/*    setMeetingId(e.target.value);*/}
+      {/*    if (meetingErr) {*/}
+      {/*      setMeetingErr(false);*/}
+      {/*    }*/}
+      {/*  }}*/}
+      {/*/>*/}
+      {/*<FormField*/}
+      {/*  field={Input}*/}
+      {/*  label="Name"*/}
+      {/*  value={localUserName}*/}
+      {/*  fieldProps={{*/}
+      {/*    name: 'name',*/}
+      {/*    placeholder: 'Enter Your Name',*/}
+      {/*  }}*/}
+      {/*  errorText="Please enter a valid name"*/}
+      {/*  error={nameErr}*/}
+      {/*  onChange={(e: ChangeEvent<HTMLInputElement>): void => {*/}
+      {/*    setLocalUserName(e.target.value);*/}
+      {/*    if (nameErr) {*/}
+      {/*      setNameErr(false);*/}
+      {/*    }*/}
+      {/*  }}*/}
+      {/*/>*/}
 
       {/*<RegionSelection setRegion={setRegion} region={region} />*/}
       {/*<FormField*/}
@@ -278,9 +300,9 @@ const MeetingForm: React.FC = () => {
       {/*  onChange={toggleMaxContentShares}*/}
       {/*  infoText="Allow up to 2 simultaneous content shares in the meeting"*/}
       {/*/>*/}
-      <Flex container  style={{ marginTop: '2.5rem', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        {isLoading ? <Spinner /> : <PrimaryButton label="Continue" onClick={handleJoinMeeting} style={{ width: '100%' }} />}
-      </Flex>
+            <Flex container  style={{ marginTop: '2.5rem', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              {isLoading ? <Spinner /> : <PrimaryButton label="Join Meeting" onClick={handleJoinMeeting} style={{ width: '100%' }} />}
+            </Flex>
       {errorMessage && (
         <Modal size="md" onClose={closeError}>
           <ModalHeader title={`Meeting ID: ${meetingId}`} />

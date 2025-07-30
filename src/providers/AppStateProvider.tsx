@@ -28,6 +28,7 @@ interface AppStateValue {
   keepLastFrameWhenPaused: boolean;
   layout: Layout;
   joinInfo: JoinMeetingInfo | undefined;
+  attendees: JoinMeetingInfo[];
   backgroundReplacementOption: ReplacementOptions;
   replacementOptionsList: ReplacementDropdownOptionType[];
   enableMaxContentShares: boolean;
@@ -41,6 +42,7 @@ interface AppStateValue {
   toggleEchoReduction: () => void;
   setMeetingMode: React.Dispatch<React.SetStateAction<MeetingMode>>;
   setJoinInfo: (joinInfo: JoinMeetingInfo | undefined) => void;
+  setAttendees: (joinInfo: string) => void;
   setLayout: React.Dispatch<React.SetStateAction<Layout>>;
   setMeetingId: React.Dispatch<React.SetStateAction<string>>;
   setLocalUserName: React.Dispatch<React.SetStateAction<string>>;
@@ -73,6 +75,7 @@ export function AppStateProvider({ children }: Props) {
   const [region, setRegion] = useState(query.get('region') || 'us-east-1');
   const [meetingMode, setMeetingMode] = useState(MeetingMode.Attendee);
   const [joinInfo, setJoinInfo] = useState<JoinMeetingInfo | undefined>(undefined);
+  const [attendees, setAttendees] = useState<JoinMeetingInfo[]>([]);
   const [layout, setLayout] = useState(Layout.Gallery);
   const [localUserName, setLocalUserName] = useState('');
   const [isWebAudioEnabled, setIsWebAudioEnabled] = useState(true);
@@ -167,7 +170,7 @@ export function AppStateProvider({ children }: Props) {
     setEnableMaxContentShares((current) => !current);
   };
 
-  const providerValue = {
+  const providerValue: never = {
     meetingId,
     localUserName,
     theme,
@@ -203,6 +206,8 @@ export function AppStateProvider({ children }: Props) {
     replacementOptionsList,
     enableMaxContentShares,
     toggleMaxContentShares,
+    setAttendees,
+    attendees
   };
 
   return <AppStateContext.Provider value={providerValue}>{children}</AppStateContext.Provider>;

@@ -15,6 +15,7 @@ import RosterAttendeeWrapper from '../components/RosterAttendeeWrapper';
 
 const MeetingRoster = () => {
   const { roster } = useRosterState();
+  console.log('roster', roster)
   const [filter, setFilter] = useState('');
   const { closeRoster } = useNavigation();
 

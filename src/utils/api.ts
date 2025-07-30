@@ -5,7 +5,8 @@ import routes from '../constants/routes';
 
 export const BASE_URL = routes.HOME;
 
-const API_URL = 'http://127.0.0.1:8080/'
+// const API_URL = 'http://127.0.0.1:8080/'
+const API_URL = 'http://localhost:4000/'
 
 export type MeetingFeatures = {
   Audio: { [key: string]: string };
@@ -19,6 +20,7 @@ export type CreateMeetingResponse = {
 export type JoinMeetingInfo = {
   Meeting: CreateMeetingResponse;
   Attendee: string;
+  Attendees: string;
 };
 
 interface MeetingResponse {
@@ -31,23 +33,30 @@ interface GetAttendeeResponse {
 
 export async function createMeetingAndAttendee(
   title: string,
-  attendeeName: string,
-  region: string,
-  echoReductionCapability = false
+  token: string,
+  // attendeeName?: string,
+  // region?: string,
+  // echoReductionCapability? = false
 ): Promise<MeetingResponse> {
-  const body = {
-    title: encodeURIComponent(title),
-    attendeeName: encodeURIComponent(attendeeName),
-    region: encodeURIComponent(region),
-    ns_es: String(echoReductionCapability),
-  };
+  // const body = {
+  //   title: encodeURIComponent(title),
+  //   attendeeName: encodeURIComponent(attendeeName),
+  //   region: encodeURIComponent(region),
+  //   ns_es: String(echoReductionCapability),
+  // };
 
-  const res = await fetch(API_URL + 'join', {
+  const payload = {
+    bookingId: title
+  }
+
+  console.log('token', token)
+  const res = await fetch(API_URL + 'create-meeting', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify(payload),
   });
 
   const data = await res.json();
@@ -56,27 +65,31 @@ export async function createMeetingAndAttendee(
     throw new Error(`Server error: ${data.error}`);
   }
 
-  return data;
+  console.log('data AWS CHIME RESPONSE', data?.body)
+
+  return { JoinInfo: data?.body };
 }
 
-export async function getAttendee(title: string, attendeeId: string): Promise<GetAttendeeResponse> {
+export async function getAttendee(title: string, attendeeId: string, attendees: []): Promise<GetAttendeeResponse> {
   const params = {
     title: encodeURIComponent(title),
     attendeeId: encodeURIComponent(attendeeId),
   };
 
-  const res = await fetch(API_URL + 'attendee?' + new URLSearchParams(params), {
-    method: 'GET',
-  });
-
-  if (!res.ok) {
-    throw new Error('Invalid server response');
-  }
-
-  const data = await res.json();
+  const findAttendee: undefined = attendees?.find((item: never) => attendeeId === item?.Attendee?.AttendeeId);
+  console.log('findAttendee', findAttendee)
+  // const res = await fetch(API_URL + 'attendee?' + new URLSearchParams(params), {
+  //   method: 'GET',
+  // });
+  //
+  // if (!res.ok) {
+  //   throw new Error('Invalid server response');
+  // }
+  //
+  // const data = await res.json();
 
   return {
-    name: data.Name,
+    name: findAttendee?.Name || "User name",
   };
 }
 
@@ -98,6 +111,6 @@ export async function endMeeting(title: string): Promise<void> {
   }
 }
 
-export const createGetAttendeeCallback = (meetingId: string) => (
+export const createGetAttendeeCallback = (meetingId: string, attendees: []) => (
   chimeAttendeeId: string
-): Promise<GetAttendeeResponse> => getAttendee(meetingId, chimeAttendeeId);
+): Promise<GetAttendeeResponse> => getAttendee(meetingId, chimeAttendeeId, attendees);

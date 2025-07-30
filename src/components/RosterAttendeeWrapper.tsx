@@ -16,6 +16,7 @@ interface Props {
 
 const RosterAttendeeWrapper: React.FC<Props> = ({ attendeeId }) => {
   const { videoEnabled } = useAttendeeStatus(attendeeId);
+  console.log('attendeeId', attendeeId)
   return (
     <RosterAttendee
       attendeeId={attendeeId}
