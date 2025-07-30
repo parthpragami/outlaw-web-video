@@ -56,13 +56,6 @@ const EndMeetingControl: React.FC = () => {
           <ModalButtonGroup
             primaryButtons={[
               <ModalButton
-                key="end-meeting-for-all"
-                onClick={endMeetingForAll}
-                variant="primary"
-                label="End meeting for all"
-                closesModal
-              />,
-              <ModalButton
                 key="leave-meeting"
                 onClick={leaveMeeting}
                 variant="primary"

@@ -33,7 +33,7 @@ interface GetAttendeeResponse {
 
 export async function createMeetingAndAttendee(
   title: string,
-  token: string,
+  token:string,
   // attendeeName?: string,
   // region?: string,
   // echoReductionCapability? = false
@@ -49,7 +49,6 @@ export async function createMeetingAndAttendee(
     bookingId: title
   }
 
-  console.log('token', token)
   const res = await fetch(API_URL + 'create-meeting', {
     method: 'POST',
     headers: {
