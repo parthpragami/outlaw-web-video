@@ -6,7 +6,7 @@ import routes from '../constants/routes';
 export const BASE_URL = routes.HOME;
 
 // const API_URL = 'http://127.0.0.1:8080/'
-const API_URL = 'http://localhost:4000/'
+const API_URL = 'https://jcfk2ktubf.execute-api.ap-south-1.amazonaws.com/default/'
 
 export type MeetingFeatures = {
   Audio: { [key: string]: string };
