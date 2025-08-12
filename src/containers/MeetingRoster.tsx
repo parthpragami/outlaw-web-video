@@ -32,10 +32,14 @@ const MeetingRoster = () => {
   };
 
   const attendeeItems = attendees.map((attendee: RosterAttendeeType) => {
-    const { chimeAttendeeId } = attendee || {};
+    const { chimeAttendeeId, externalUserId } = attendee || {};
+    if(externalUserId && externalUserId.startsWith('aws:MediaPipeline')) {
+      return null
+    }
     return <RosterAttendeeWrapper key={chimeAttendeeId} attendeeId={chimeAttendeeId} />;
   });
 
+  console.log('attendees', attendees)
   return (
     <Roster className="roster">
       <RosterHeader

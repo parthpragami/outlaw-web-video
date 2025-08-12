@@ -51,6 +51,8 @@ const MeetingForm: React.FC = () => {
     isWebAudioEnabled,
     videoTransformCpuUtilization: videoTransformCpuUtilization,
     setJoinInfo,
+    attendees,
+    setAttendees,
     isEchoReductionEnabled,
     enableMaxContentShares,
     toggleEchoReduction,
@@ -100,12 +102,15 @@ const MeetingForm: React.FC = () => {
     }
 
     setIsLoading(true);
-    meetingManager.getAttendee = createGetAttendeeCallback(id);
+
 
     try {
       const { JoinInfo }  = await createMeetingAndAttendee(id, token);
       console.log('JoinInfo', JoinInfo)
+      setAttendees(JoinInfo.Attendees);
       setJoinInfo(JoinInfo);
+      console.log('meetingManager.getAttendee', attendees)
+      meetingManager.getAttendee = createGetAttendeeCallback(id, JoinInfo?.Attendees);
       const meetingSessionConfiguration = new MeetingSessionConfiguration(JoinInfo?.Meeting, JoinInfo?.Attendee);
       if (
           meetingConfig.postLogger &&

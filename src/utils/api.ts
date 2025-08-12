@@ -75,6 +75,7 @@ export async function getAttendee(title: string, attendeeId: string, attendees: 
     attendeeId: encodeURIComponent(attendeeId),
   };
 
+  console.log('getAttendee', attendees)
   const findAttendee: undefined = attendees?.find((item: never) => attendeeId === item?.Attendee?.AttendeeId);
   console.log('findAttendee', findAttendee)
   // const res = await fetch(API_URL + 'attendee?' + new URLSearchParams(params), {
@@ -110,6 +111,6 @@ export async function endMeeting(title: string): Promise<void> {
   }
 }
 
-export const createGetAttendeeCallback = (meetingId: string, attendees: []) => (
+export const createGetAttendeeCallback = (meetingId: string, attendees: never) => (
   chimeAttendeeId: string
 ): Promise<GetAttendeeResponse> => getAttendee(meetingId, chimeAttendeeId, attendees);
