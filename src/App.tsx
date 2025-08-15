@@ -10,7 +10,9 @@ import Notifications from "./containers/Notifications.tsx";
 import ErrorProvider from "./providers/ErrorProvider.tsx";
 import MeetingProviderWrapper from "./containers/MeetingProviderWrapper";
 
-
+console.log({
+    "import.meta.env.API_URL": import.meta.env.VITE_API_URL
+})
 function App() {
   return (
     <>

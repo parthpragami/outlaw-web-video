@@ -27,7 +27,8 @@ const EndMeetingControl: React.FC = () => {
   const navigate = useNavigate();
 
   const leaveMeeting = async (): Promise<void> => {
-    navigate(routes.HOME);
+    // navigate(import.meta.env.VITE_REACT_NATIVE_APP || routes.HOME);
+    window.location.href = `${import.meta.env.VITE_REACT_NATIVE_APP}/booking-details/${meetingId}/feedback`;
   };
 
   const endMeetingForAll = async (): Promise<void> => {
